@@ -49,16 +49,14 @@
             margin-bottom: 8px;
         }
 
-        .header h1 span {
-            color: var(--accent);
-        }
+        .header h1 span { color: var(--accent); }
 
         .header p {
             color: var(--text-dim);
             font-size: 0.95rem;
         }
 
-        /* Input Section */
+        /* Input grid */
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -75,15 +73,41 @@
             flex-direction: column;
         }
 
-        .input-group label {
+        /* Tab row */
+        .tab-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .tab-label {
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-dim);
-            margin-bottom: 8px;
+            flex: 1;
         }
 
+        .tab-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-dim);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Textarea */
         textarea {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -96,6 +120,7 @@
             resize: vertical;
             min-height: 220px;
             transition: border-color 0.2s;
+            width: 100%;
         }
 
         textarea:focus {
@@ -107,6 +132,155 @@
             color: var(--text-dim);
             opacity: 0.5;
         }
+
+        /* Drop zone */
+        .drop-zone {
+            background: var(--surface);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .drop-zone.has-file {
+            border-style: solid;
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .drop-icon {
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+
+        .drop-text {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .drop-text strong {
+            color: var(--accent);
+        }
+
+        .drop-hint {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .file-name {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .file-clear {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: color 0.15s;
+        }
+
+        .file-clear:hover { color: var(--red); }
+
+        input[type="file"] { display: none; }
+
+        /* URL input row */
+        .url-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .url-input {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            flex: 1;
+            transition: border-color 0.2s;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .url-input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.5;
+        }
+
+        .fetch-btn {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: var(--radius);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .fetch-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fetch-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .url-preview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            min-height: 160px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 8px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .url-preview.visible { display: block; }
+
+        .url-status {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            min-height: 20px;
+        }
+
+        .url-status.ok { color: var(--green); }
+        .url-status.err { color: var(--red); }
+        .url-status.loading { color: var(--text-dim); }
 
         /* Button */
         .btn-row {
@@ -152,10 +326,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Results */
-        .results {
-            display: none;
-        }
-
+        .results { display: none; }
         .results.visible {
             display: block;
             animation: fadeIn 0.4s ease;
@@ -240,10 +411,6 @@
             gap: 8px;
         }
 
-        .section-title .icon {
-            font-size: 1rem;
-        }
-
         /* ATS Badge */
         .ats-badge {
             display: inline-block;
@@ -258,7 +425,6 @@
         .ats-fair { background: rgba(250, 204, 21, 0.1); color: var(--yellow); }
         .ats-poor { background: rgba(248, 113, 113, 0.1); color: var(--red); }
 
-        /* List items */
         .item {
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
@@ -273,7 +439,6 @@
             margin-right: 8px;
         }
 
-        /* Rewrite cards */
         .rewrite {
             background: var(--surface-2);
             border-radius: 8px;
@@ -311,7 +476,6 @@
             font-style: italic;
         }
 
-        /* Keywords */
         .keywords-list {
             display: flex;
             flex-wrap: wrap;
@@ -327,7 +491,7 @@
             font-weight: 500;
         }
 
-        /* Streaming indicator */
+        /* Streaming */
         .streaming-indicator {
             display: none;
             text-align: center;
@@ -336,9 +500,7 @@
             font-size: 0.9rem;
         }
 
-        .streaming-indicator.visible {
-            display: block;
-        }
+        .streaming-indicator.visible { display: block; }
 
         .streaming-dots::after {
             content: '';
@@ -366,7 +528,39 @@
 
         .error-msg.visible { display: block; }
 
-        /* Footer */
+        /* Download buttons */
+        .dl-btn {
+            background: var(--accent);
+            color: #0a0a0b;
+            border: none;
+            padding: 10px 24px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .dl-btn:hover { opacity: 0.85; }
+        .dl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .dl-btn-secondary {
+            background: var(--surface-2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            padding: 10px 24px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .dl-btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .footer {
             text-align: center;
             padding: 40px 0 20px;
@@ -374,27 +568,67 @@
             font-size: 0.8rem;
         }
 
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
+        .footer a { color: var(--accent); text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Clear<span>CV</span></h1>
-            <p>Paste your resume and a job description. Get instant AI-powered feedback.</p>
+            <p>Upload your CV and paste or link a job description. Get instant AI-powered feedback.</p>
         </div>
 
         <div class="input-grid">
+            <!-- CV Side -->
             <div class="input-group">
-                <label>Your Resume</label>
-                <textarea id="resume" placeholder="Paste your resume text here..."></textarea>
+                <div class="tab-row">
+                    <span class="tab-label">Your CV</span>
+                    <button class="tab-btn active" onclick="switchCvTab('upload')" id="cv-tab-upload">Upload</button>
+                    <button class="tab-btn" onclick="switchCvTab('paste')" id="cv-tab-paste">Paste</button>
+                </div>
+
+                <!-- Upload mode -->
+                <div id="cv-upload-panel">
+                    <input type="file" id="cv-file-input" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this.files[0])">
+                    <div class="drop-zone" id="cv-drop-zone"
+                         onclick="document.getElementById('cv-file-input').click()"
+                         ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                        <div class="drop-icon" id="drop-icon">📄</div>
+                        <div class="drop-text" id="drop-text"><strong>Click to upload</strong> or drag & drop</div>
+                        <div class="drop-hint" id="drop-hint">PDF, DOCX, or TXT</div>
+                        <span class="file-name" id="file-name" style="display:none"></span>
+                        <button class="file-clear" id="file-clear" style="display:none" onclick="clearFile(event)">✕ Remove</button>
+                    </div>
+                </div>
+
+                <!-- Paste mode -->
+                <div id="cv-paste-panel" style="display:none">
+                    <textarea id="cv-paste" placeholder="Paste your resume text here..."></textarea>
+                </div>
             </div>
+
+            <!-- Job Description Side -->
             <div class="input-group">
-                <label>Job Description</label>
-                <textarea id="job-desc" placeholder="Paste the target job description here..."></textarea>
+                <div class="tab-row">
+                    <span class="tab-label">Job Description</span>
+                    <button class="tab-btn active" onclick="switchJdTab('paste')" id="jd-tab-paste">Paste</button>
+                    <button class="tab-btn" onclick="switchJdTab('url')" id="jd-tab-url">URL</button>
+                </div>
+
+                <!-- Paste mode -->
+                <div id="jd-paste-panel">
+                    <textarea id="jd-paste" placeholder="Paste the target job description here..."></textarea>
+                </div>
+
+                <!-- URL mode -->
+                <div id="jd-url-panel" style="display:none">
+                    <div class="url-row">
+                        <input class="url-input" id="jd-url-input" type="url" placeholder="https://linkedin.com/jobs/view/...">
+                        <button class="fetch-btn" id="fetch-btn" onclick="fetchJobUrl()">Fetch</button>
+                    </div>
+                    <div class="url-status" id="url-status"></div>
+                    <div class="url-preview" id="url-preview"></div>
+                </div>
             </div>
         </div>
 
@@ -409,7 +643,6 @@
         </div>
 
         <div class="results" id="results">
-            <!-- Score -->
             <div class="score-card">
                 <div class="score-ring">
                     <svg viewBox="0 0 120 120">
@@ -421,65 +654,289 @@
                 <div class="score-summary" id="score-summary"></div>
             </div>
 
-            <!-- ATS Check -->
-            <div class="section" id="ats-section">
-                <div class="section-title"><span class="icon">⚙</span> ATS Compatibility</div>
+            <div class="section">
+                <div class="section-title">⚙ ATS Compatibility</div>
                 <div id="ats-badge"></div>
                 <div id="ats-issues"></div>
             </div>
 
-            <!-- Strengths -->
-            <div class="section" id="strengths-section">
-                <div class="section-title"><span class="icon">✓</span> Strengths</div>
+            <div class="section">
+                <div class="section-title">✓ Strengths</div>
                 <div id="strengths-list"></div>
             </div>
 
-            <!-- Weaknesses -->
-            <div class="section" id="weaknesses-section">
-                <div class="section-title"><span class="icon">✗</span> Weaknesses</div>
+            <div class="section">
+                <div class="section-title">✗ Weaknesses</div>
                 <div id="weaknesses-list"></div>
             </div>
 
-            <!-- Rewrites -->
-            <div class="section" id="rewrites-section">
-                <div class="section-title"><span class="icon">✎</span> Rewrite Suggestions</div>
+            <div class="section">
+                <div class="section-title">✎ Rewrite Suggestions</div>
                 <div id="rewrites-list"></div>
             </div>
 
-            <!-- Missing Keywords -->
-            <div class="section" id="keywords-section">
-                <div class="section-title"><span class="icon">🔑</span> Missing Keywords</div>
+            <div class="section">
+                <div class="section-title">🔑 Missing Keywords</div>
                 <div class="keywords-list" id="keywords-list"></div>
             </div>
         </div>
 
+        <!-- Cover Letter Section -->
+        <div id="cover-letter-section" style="display:none; margin-top: 12px;">
+            <div class="section">
+                <div class="section-title">✉ Cover Letter</div>
+
+                <div id="cl-generate-row" style="text-align:center; padding: 8px 0 4px;">
+                    <button class="btn" id="cl-btn" onclick="generateCoverLetter()">Generate Cover Letter</button>
+                    <div style="color: var(--text-dim); font-size: 0.8rem; margin-top: 10px;">
+                        Tailored to this role — adjusts focus based on what the job emphasises
+                    </div>
+                </div>
+
+                <div id="cl-loading" style="display:none; text-align:center; padding:20px; color:var(--text-dim); font-size:0.9rem;">
+                    <span class="streaming-dots">Writing your cover letter</span>
+                </div>
+
+                <div id="cl-result" style="display:none;">
+                    <!-- Preview -->
+                    <div id="cl-preview" style="
+                        background: var(--surface-2);
+                        border-radius: 8px;
+                        padding: 24px 28px;
+                        font-size: 0.9rem;
+                        line-height: 1.8;
+                        white-space: pre-wrap;
+                        margin-bottom: 20px;
+                        color: var(--text);
+                        border: 1px solid var(--border);
+                    "></div>
+
+                    <!-- Download row -->
+                    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                        <button class="dl-btn" onclick="downloadCoverLetter('pdf')">
+                            ↓ Download PDF
+                        </button>
+                        <button class="dl-btn" onclick="downloadCoverLetter('docx')">
+                            ↓ Download Word
+                        </button>
+                        <button class="dl-btn-secondary" onclick="regenerateCoverLetter()">
+                            ↺ Regenerate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="footer">
-            Built with <a href="https://anthropic.com" target="_blank">Claude</a> + FastAPI
+            Built with <a href="https://groq.com" target="_blank">Groq</a> + FastAPI
         </div>
     </div>
 
     <script>
+        // --- State ---
+        let cvMode = 'upload';   // 'upload' | 'paste'
+        let jdMode = 'paste';    // 'paste' | 'url'
+        let uploadedCvText = ''; // text extracted from uploaded file
+        let fetchedJdText = '';  // text fetched from URL
         let isAnalyzing = false;
 
-        async function analyze() {
-            if (isAnalyzing) return;
+        // --- Tab switching ---
+        function switchCvTab(mode) {
+            cvMode = mode;
+            document.getElementById('cv-upload-panel').style.display = mode === 'upload' ? 'block' : 'none';
+            document.getElementById('cv-paste-panel').style.display  = mode === 'paste'  ? 'block' : 'none';
+            document.getElementById('cv-tab-upload').classList.toggle('active', mode === 'upload');
+            document.getElementById('cv-tab-paste').classList.toggle('active',  mode === 'paste');
+        }
 
-            const resume = document.getElementById('resume').value.trim();
-            const jobDesc = document.getElementById('job-desc').value.trim();
-            const btn = document.getElementById('analyze-btn');
-            const errorEl = document.getElementById('error-msg');
-            const streamingEl = document.getElementById('streaming');
-            const resultsEl = document.getElementById('results');
+        function switchJdTab(mode) {
+            jdMode = mode;
+            document.getElementById('jd-paste-panel').style.display = mode === 'paste' ? 'block' : 'none';
+            document.getElementById('jd-url-panel').style.display   = mode === 'url'   ? 'block' : 'none';
+            document.getElementById('jd-tab-paste').classList.toggle('active', mode === 'paste');
+            document.getElementById('jd-tab-url').classList.toggle('active',   mode === 'url');
+        }
 
-            // Validation
-            errorEl.classList.remove('visible');
-            if (!resume || !jobDesc) {
-                errorEl.textContent = 'Please paste both your resume and the job description.';
-                errorEl.classList.add('visible');
+        // --- Drag & Drop ---
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('cv-drop-zone').classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            document.getElementById('cv-drop-zone').classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('cv-drop-zone').classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) handleFileSelect(file);
+        }
+
+        // --- File upload & parsing ---
+        async function handleFileSelect(file) {
+            if (!file) return;
+            const allowed = ['.pdf', '.docx', '.txt'];
+            const ext = '.' + file.name.split('.').pop().toLowerCase();
+            if (!allowed.includes(ext)) {
+                showError('Please upload a PDF, DOCX, or TXT file.');
                 return;
             }
 
-            // UI state
+            const dropZone = document.getElementById('cv-drop-zone');
+            const dropIcon = document.getElementById('drop-icon');
+            const dropText = document.getElementById('drop-text');
+            const dropHint = document.getElementById('drop-hint');
+            const fileNameEl = document.getElementById('file-name');
+            const fileClear = document.getElementById('file-clear');
+
+            // Show loading state
+            dropText.innerHTML = 'Reading file...';
+            dropHint.style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const res = await fetch('/api/parse-cv', { method: 'POST', body: formData });
+                const data = await res.json();
+
+                if (data.error) {
+                    showError(data.error);
+                    resetDropZone();
+                    return;
+                }
+
+                uploadedCvText = data.text;
+                dropZone.classList.add('has-file');
+                dropIcon.textContent = '✓';
+                dropText.innerHTML = '';
+                dropHint.style.display = 'none';
+                fileNameEl.textContent = file.name;
+                fileNameEl.style.display = 'block';
+                fileClear.style.display = 'block';
+
+            } catch (err) {
+                showError('Failed to read file. Try pasting the text instead.');
+                resetDropZone();
+            }
+        }
+
+        function clearFile(e) {
+            e.stopPropagation();
+            uploadedCvText = '';
+            document.getElementById('cv-file-input').value = '';
+            resetDropZone();
+        }
+
+        function resetDropZone() {
+            document.getElementById('cv-drop-zone').classList.remove('has-file', 'drag-over');
+            document.getElementById('drop-icon').textContent = '📄';
+            document.getElementById('drop-text').innerHTML = '<strong>Click to upload</strong> or drag & drop';
+            document.getElementById('drop-hint').style.display = 'block';
+            document.getElementById('file-name').style.display = 'none';
+            document.getElementById('file-clear').style.display = 'none';
+        }
+
+        // --- URL fetch ---
+        async function fetchJobUrl() {
+            const url = document.getElementById('jd-url-input').value.trim();
+            const statusEl = document.getElementById('url-status');
+            const previewEl = document.getElementById('url-preview');
+            const fetchBtn = document.getElementById('fetch-btn');
+
+            if (!url) {
+                statusEl.className = 'url-status err';
+                statusEl.textContent = 'Please enter a URL.';
+                return;
+            }
+
+            fetchBtn.disabled = true;
+            statusEl.className = 'url-status loading';
+            statusEl.textContent = 'Fetching job description...';
+            previewEl.classList.remove('visible');
+            fetchedJdText = '';
+
+            try {
+                const res = await fetch('/api/extract-url', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                const data = await res.json();
+
+                if (data.error) {
+                    statusEl.className = 'url-status err';
+                    statusEl.textContent = data.error;
+                    return;
+                }
+
+                fetchedJdText = data.text;
+                statusEl.className = 'url-status ok';
+                statusEl.textContent = `✓ Extracted ${fetchedJdText.length.toLocaleString()} characters`;
+                previewEl.textContent = fetchedJdText.slice(0, 600) + (fetchedJdText.length > 600 ? '...' : '');
+                previewEl.classList.add('visible');
+
+            } catch (err) {
+                statusEl.className = 'url-status err';
+                statusEl.textContent = 'Failed to fetch. Try pasting the job description instead.';
+            } finally {
+                fetchBtn.disabled = false;
+            }
+        }
+
+        // Enter key on URL input
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('jd-url-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') fetchJobUrl();
+            });
+        });
+
+        // --- Main analyze function ---
+        async function analyze() {
+            if (isAnalyzing) return;
+
+            const errorEl    = document.getElementById('error-msg');
+            const streamingEl = document.getElementById('streaming');
+            const resultsEl  = document.getElementById('results');
+            const btn        = document.getElementById('analyze-btn');
+
+            errorEl.classList.remove('visible');
+
+            // Get CV text
+            let resumeText = '';
+            if (cvMode === 'upload') {
+                resumeText = uploadedCvText;
+                if (!resumeText) {
+                    showError('Please upload your CV file first.');
+                    return;
+                }
+            } else {
+                resumeText = document.getElementById('cv-paste').value.trim();
+                if (!resumeText) {
+                    showError('Please paste your resume text.');
+                    return;
+                }
+            }
+
+            // Get JD text
+            let jdText = '';
+            if (jdMode === 'paste') {
+                jdText = document.getElementById('jd-paste').value.trim();
+                if (!jdText) {
+                    showError('Please paste the job description.');
+                    return;
+                }
+            } else {
+                jdText = fetchedJdText;
+                if (!jdText) {
+                    showError('Please fetch the job description URL first.');
+                    return;
+                }
+            }
+
+            // UI
             isAnalyzing = true;
             btn.disabled = true;
             btn.classList.add('btn-loading');
@@ -493,7 +950,7 @@
                 const response = await fetch('/api/review', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ resume, job_description: jobDesc })
+                    body: JSON.stringify({ resume: resumeText, job_description: jdText })
                 });
 
                 const reader = response.body.getReader();
@@ -502,30 +959,35 @@
                 while (true) {
                     const { value, done } = await reader.read();
                     if (done) break;
-
                     const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-
-                    for (const line of lines) {
+                    for (const line of chunk.split('\n')) {
                         if (line.startsWith('data: ')) {
                             const data = line.slice(6);
                             if (data === '[DONE]') break;
                             try {
                                 const parsed = JSON.parse(data);
                                 if (parsed.text) fullText += parsed.text;
-                            } catch (e) { /* skip malformed chunks */ }
+                            } catch (e) { /* skip */ }
                         }
                     }
                 }
 
-                // Parse and render
-                const result = JSON.parse(fullText);
-                renderResults(result);
+                renderResults(JSON.parse(fullText));
+
+                // Store for cover letter use
+                lastResumeText = resumeText;
+                lastJdText     = jdText;
+
+                // Show cover letter section
+                const clSection = document.getElementById('cover-letter-section');
+                document.getElementById('cl-generate-row').style.display = 'block';
+                document.getElementById('cl-loading').style.display      = 'none';
+                document.getElementById('cl-result').style.display        = 'none';
+                clSection.style.display = 'block';
 
             } catch (err) {
                 console.error(err);
-                errorEl.textContent = 'Something went wrong. Make sure the server is running and your API key is set.';
-                errorEl.classList.add('visible');
+                showError('Something went wrong. Make sure the server is running and your API key is set.');
             } finally {
                 isAnalyzing = false;
                 btn.disabled = false;
@@ -535,16 +997,13 @@
             }
         }
 
+        // --- Render results ---
         function renderResults(data) {
-            const resultsEl = document.getElementById('results');
-
-            // Score ring
             const score = data.match_score || 0;
             const circle = document.getElementById('score-circle');
             const circumference = 2 * Math.PI * 54;
             const offset = circumference - (score / 100) * circumference;
 
-            // Color based on score
             let scoreColor = '#a78bfa';
             if (score >= 75) scoreColor = '#4ade80';
             else if (score >= 50) scoreColor = '#facc15';
@@ -553,49 +1012,42 @@
             circle.style.stroke = scoreColor;
             setTimeout(() => { circle.style.strokeDashoffset = offset; }, 50);
 
-            // Animate number
             animateNumber('score-number', 0, score, 800);
             document.getElementById('score-summary').textContent = data.match_summary || '';
 
-            // ATS
             const atsScore = data.ats_check?.score || 'Fair';
             const atsCls = atsScore === 'Good' ? 'ats-good' : atsScore === 'Poor' ? 'ats-poor' : 'ats-fair';
             document.getElementById('ats-badge').innerHTML = `<span class="ats-badge ${atsCls}">${atsScore}</span>`;
-            document.getElementById('ats-issues').innerHTML = (data.ats_check?.issues || [])
-                .map(i => `<div class="item">${escapeHtml(i)}</div>`).join('');
+            document.getElementById('ats-issues').innerHTML = (data.ats_check?.issues || []).map(i => `<div class="item">${escapeHtml(i)}</div>`).join('');
 
-            // Strengths
-            document.getElementById('strengths-list').innerHTML = (data.strengths || [])
-                .map(s => `<div class="item">${escapeHtml(s)}</div>`).join('');
+            document.getElementById('strengths-list').innerHTML = (data.strengths || []).map(s => `<div class="item">${escapeHtml(s)}</div>`).join('');
+            document.getElementById('weaknesses-list').innerHTML = (data.weaknesses || []).map(w => `<div class="item">${escapeHtml(w)}</div>`).join('');
 
-            // Weaknesses
-            document.getElementById('weaknesses-list').innerHTML = (data.weaknesses || [])
-                .map(w => `<div class="item">${escapeHtml(w)}</div>`).join('');
+            document.getElementById('rewrites-list').innerHTML = (data.rewrite_suggestions || []).map(r => `
+                <div class="rewrite">
+                    <div class="rewrite-label" style="color:var(--red)">Original</div>
+                    <div class="rewrite-original">${escapeHtml(r.original)}</div>
+                    <div class="rewrite-label" style="color:var(--green)">Suggested</div>
+                    <div class="rewrite-suggested">${escapeHtml(r.suggested)}</div>
+                    <div class="rewrite-reason">${escapeHtml(r.reason)}</div>
+                </div>`).join('');
 
-            // Rewrites
-            document.getElementById('rewrites-list').innerHTML = (data.rewrite_suggestions || [])
-                .map(r => `
-                    <div class="rewrite">
-                        <div class="rewrite-label" style="color: var(--red);">Original</div>
-                        <div class="rewrite-original">${escapeHtml(r.original)}</div>
-                        <div class="rewrite-label" style="color: var(--green);">Suggested</div>
-                        <div class="rewrite-suggested">${escapeHtml(r.suggested)}</div>
-                        <div class="rewrite-reason">${escapeHtml(r.reason)}</div>
-                    </div>
-                `).join('');
+            document.getElementById('keywords-list').innerHTML = (data.missing_keywords || []).map(k => `<span class="keyword-tag">${escapeHtml(k)}</span>`).join('');
 
-            // Keywords
-            document.getElementById('keywords-list').innerHTML = (data.missing_keywords || [])
-                .map(k => `<span class="keyword-tag">${escapeHtml(k)}</span>`).join('');
+            document.getElementById('results').classList.add('visible');
+        }
 
-            resultsEl.classList.add('visible');
+        // --- Helpers ---
+        function showError(msg) {
+            const el = document.getElementById('error-msg');
+            el.textContent = msg;
+            el.classList.add('visible');
         }
 
         function animateNumber(id, start, end, duration) {
             const el = document.getElementById(id);
             const range = end - start;
             const startTime = performance.now();
-
             function update(time) {
                 const elapsed = time - startTime;
                 const progress = Math.min(elapsed / duration, 1);
@@ -603,7 +1055,6 @@
                 el.textContent = Math.round(start + range * eased);
                 if (progress < 1) requestAnimationFrame(update);
             }
-
             requestAnimationFrame(update);
         }
 
@@ -613,10 +1064,121 @@
             return div.innerHTML;
         }
 
-        // Keyboard shortcut
         document.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analyze();
         });
+
+        // ── Cover Letter ──────────────────────────────────────────────────────
+        let coverLetterData = null;   // stores parsed JSON from last generation
+        let lastResumeText  = '';
+        let lastJdText      = '';
+
+        async function generateCoverLetter() {
+            const clSection  = document.getElementById('cover-letter-section');
+            const generateRow = document.getElementById('cl-generate-row');
+            const loadingEl  = document.getElementById('cl-loading');
+            const resultEl   = document.getElementById('cl-result');
+            const previewEl  = document.getElementById('cl-preview');
+            const clBtn      = document.getElementById('cl-btn');
+
+            // Reset
+            resultEl.style.display   = 'none';
+            generateRow.style.display = 'none';
+            loadingEl.style.display  = 'block';
+            coverLetterData = null;
+
+            let fullText = '';
+
+            try {
+                const response = await fetch('/api/cover-letter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resume: lastResumeText, job_description: lastJdText })
+                });
+
+                const reader  = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    for (const line of decoder.decode(value).split('\n')) {
+                        if (line.startsWith('data: ')) {
+                            const d = line.slice(6);
+                            if (d === '[DONE]') break;
+                            try { const p = JSON.parse(d); if (p.text) fullText += p.text; } catch {}
+                        }
+                    }
+                }
+
+                coverLetterData = JSON.parse(fullText);
+                previewEl.textContent = formatCoverLetterPreview(coverLetterData);
+                loadingEl.style.display  = 'none';
+                resultEl.style.display   = 'block';
+
+            } catch (err) {
+                console.error(err);
+                loadingEl.style.display   = 'none';
+                generateRow.style.display = 'block';
+                showError('Failed to generate cover letter. Please try again.');
+            }
+        }
+
+        function formatCoverLetterPreview(cl) {
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const lines = [
+                cl.candidate_name || '',
+                today,
+                `Re: ${cl.role || 'Application'}${cl.company_name ? ' — ' + cl.company_name : ''}`,
+                '',
+                'Dear Hiring Manager,',
+                '',
+            ];
+            (cl.paragraphs || []).forEach(p => { lines.push(p); lines.push(''); });
+            lines.push('Sincerely,');
+            lines.push('');
+            lines.push(cl.candidate_name || '');
+            return lines.join('\n');
+        }
+
+        function regenerateCoverLetter() {
+            document.getElementById('cl-result').style.display    = 'none';
+            document.getElementById('cl-generate-row').style.display = 'block';
+        }
+
+        async function downloadCoverLetter(format) {
+            if (!coverLetterData) return;
+            const btn = event.currentTarget;
+            btn.disabled = true;
+            btn.textContent = 'Generating…';
+
+            try {
+                const res = await fetch(`/api/download/${format}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cover_letter: coverLetterData })
+                });
+
+                if (!res.ok) throw new Error('Download failed');
+
+                const blob     = await res.blob();
+                const url      = URL.createObjectURL(blob);
+                const a        = document.createElement('a');
+                const company  = (coverLetterData.company_name || 'Application').replace(/\s+/g, '_');
+                a.href         = url;
+                a.download     = `Cover_Letter_${company}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                showError('Download failed. Please try again.');
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = format === 'pdf' ? '↓ Download PDF' : '↓ Download Word';
+            }
+        }
     </script>
 </body>
 </html>
