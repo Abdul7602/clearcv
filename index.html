@@ -284,14 +284,11 @@
 
         /* Button */
         .btn-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+            display: flex;
+            justify-content: center;
             gap: 12px;
+            flex-wrap: wrap;
             margin-bottom: 40px;
-        }
-
-        @media (max-width: 640px) {
-            .btn-row { grid-template-columns: 1fr; }
         }
 
         .btn-outline {
@@ -303,6 +300,7 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
+            min-width: 220px;
             transition: background 0.2s, color 0.2s;
         }
 
@@ -325,6 +323,7 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
+            min-width: 220px;
             transition: background 0.2s, color 0.2s, transform 0.1s;
         }
 
