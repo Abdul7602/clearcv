@@ -284,11 +284,14 @@
 
         /* Button */
         .btn-row {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
-            flex-wrap: wrap;
             margin-bottom: 40px;
+        }
+
+        @media (max-width: 640px) {
+            .btn-row { grid-template-columns: 1fr; }
         }
 
         .btn-outline {
@@ -304,7 +307,8 @@
         }
 
         .btn-outline:hover {
-            background: var(--accent-dim);
+            background: var(--accent);
+            color: #0a0a0b;
         }
 
         .btn-outline:disabled {
@@ -313,18 +317,22 @@
         }
 
         .btn {
-            background: var(--accent);
-            color: #0a0a0b;
-            border: none;
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
             padding: 12px 32px;
             font-size: 0.95rem;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
+            transition: background 0.2s, color 0.2s, transform 0.1s;
         }
 
-        .btn:hover { opacity: 0.9; }
+        .btn:hover {
+            background: var(--accent);
+            color: #0a0a0b;
+        }
+
         .btn:active { transform: scale(0.98); }
 
         .btn:disabled {
@@ -598,7 +606,7 @@
     <div class="container">
         <div class="header">
             <h1>Clear<span>CV</span></h1>
-            <p>Upload your CV and paste or link a job description. Get instant AI-powered feedback.</p>
+            <p>Upload your CV and a job description — get instant ATS analysis, actionable feedback,<br>and a tailored cover letter built around what the role actually requires.</p>
         </div>
 
         <div class="input-grid">
@@ -936,7 +944,7 @@
             isAnalyzing = true;
             btn.disabled = true;
             btn.classList.add('btn-loading');
-            btn.textContent = 'Analyzing';
+            btn.textContent = 'Analysing...';
             resultsEl.classList.remove('visible');
             streamingEl.classList.add('visible');
 
@@ -988,7 +996,7 @@
                 isAnalyzing = false;
                 btn.disabled = false;
                 btn.classList.remove('btn-loading');
-                btn.textContent = 'Analyze Resume';
+                btn.textContent = 'Analyse Resume';
                 streamingEl.classList.remove('visible');
             }
         }
