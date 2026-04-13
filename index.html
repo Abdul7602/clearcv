@@ -286,7 +286,30 @@
         .btn-row {
             display: flex;
             justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
             margin-bottom: 40px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+            padding: 12px 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-dim);
+        }
+
+        .btn-outline:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         .btn {
@@ -633,7 +656,8 @@
         </div>
 
         <div class="btn-row">
-            <button class="btn" id="analyze-btn" onclick="analyze()">Analyze Resume</button>
+            <button class="btn" id="analyze-btn" onclick="analyze()">Analyse Resume</button>
+            <button class="btn-outline" id="cl-main-btn" onclick="generateCoverLetterDirect()">Generate Cover Letter</button>
         </div>
 
         <div class="error-msg" id="error-msg"></div>
@@ -904,37 +928,9 @@
 
             errorEl.classList.remove('visible');
 
-            // Get CV text
-            let resumeText = '';
-            if (cvMode === 'upload') {
-                resumeText = uploadedCvText;
-                if (!resumeText) {
-                    showError('Please upload your CV file first.');
-                    return;
-                }
-            } else {
-                resumeText = document.getElementById('cv-paste').value.trim();
-                if (!resumeText) {
-                    showError('Please paste your resume text.');
-                    return;
-                }
-            }
-
-            // Get JD text
-            let jdText = '';
-            if (jdMode === 'paste') {
-                jdText = document.getElementById('jd-paste').value.trim();
-                if (!jdText) {
-                    showError('Please paste the job description.');
-                    return;
-                }
-            } else {
-                jdText = fetchedJdText;
-                if (!jdText) {
-                    showError('Please fetch the job description URL first.');
-                    return;
-                }
-            }
+            const { resumeText, jdText } = getInputTexts();
+            if (!resumeText) { showError(cvMode === 'upload' ? 'Please upload your CV file first.' : 'Please paste your resume text.'); return; }
+            if (!jdText)     { showError(jdMode === 'url'    ? 'Please fetch the job description URL first.' : 'Please paste the job description.'); return; }
 
             // UI
             isAnalyzing = true;
@@ -1069,22 +1065,65 @@
         });
 
         // ── Cover Letter ──────────────────────────────────────────────────────
-        let coverLetterData = null;   // stores parsed JSON from last generation
+        let coverLetterData = null;
         let lastResumeText  = '';
         let lastJdText      = '';
 
+        // Shared helper — gets CV + JD text from whatever input mode is active
+        function getInputTexts() {
+            let resumeText = '';
+            let jdText     = '';
+
+            if (cvMode === 'upload') {
+                resumeText = uploadedCvText;
+            } else {
+                resumeText = document.getElementById('cv-paste').value.trim();
+            }
+
+            if (jdMode === 'paste') {
+                jdText = document.getElementById('jd-paste').value.trim();
+            } else {
+                jdText = fetchedJdText;
+            }
+
+            return { resumeText, jdText };
+        }
+
+        // Called from the top-row button — validates inputs then generates
+        async function generateCoverLetterDirect() {
+            const { resumeText, jdText } = getInputTexts();
+            const errorEl = document.getElementById('error-msg');
+            errorEl.classList.remove('visible');
+
+            if (!resumeText) { showError(cvMode === 'upload' ? 'Please upload your CV first.' : 'Please paste your resume text.'); return; }
+            if (!jdText)     { showError(jdMode === 'url'    ? 'Please fetch the job description URL first.' : 'Please paste the job description.'); return; }
+
+            lastResumeText = resumeText;
+            lastJdText     = jdText;
+
+            // Show and scroll to cover letter section
+            const clSection = document.getElementById('cover-letter-section');
+            clSection.style.display = 'block';
+            document.getElementById('cl-generate-row').style.display = 'none';
+            document.getElementById('cl-result').style.display        = 'none';
+            clSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            await runCoverLetterStream();
+        }
+
+        // Called from inside the cover letter section (after analysis ran)
         async function generateCoverLetter() {
-            const clSection  = document.getElementById('cover-letter-section');
-            const generateRow = document.getElementById('cl-generate-row');
+            document.getElementById('cl-generate-row').style.display = 'none';
+            document.getElementById('cl-result').style.display        = 'none';
+            await runCoverLetterStream();
+        }
+
+        async function runCoverLetterStream() {
             const loadingEl  = document.getElementById('cl-loading');
             const resultEl   = document.getElementById('cl-result');
             const previewEl  = document.getElementById('cl-preview');
-            const clBtn      = document.getElementById('cl-btn');
 
-            // Reset
-            resultEl.style.display   = 'none';
-            generateRow.style.display = 'none';
-            loadingEl.style.display  = 'block';
+            loadingEl.style.display = 'block';
             coverLetterData = null;
 
             let fullText = '';
@@ -1113,13 +1152,13 @@
 
                 coverLetterData = JSON.parse(fullText);
                 previewEl.textContent = formatCoverLetterPreview(coverLetterData);
-                loadingEl.style.display  = 'none';
-                resultEl.style.display   = 'block';
+                loadingEl.style.display = 'none';
+                resultEl.style.display  = 'block';
 
             } catch (err) {
                 console.error(err);
-                loadingEl.style.display   = 'none';
-                generateRow.style.display = 'block';
+                loadingEl.style.display = 'none';
+                document.getElementById('cl-generate-row').style.display = 'block';
                 showError('Failed to generate cover letter. Please try again.');
             }
         }
