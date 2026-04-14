@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClearCV — AI Resume Reviewer</title>
+    <title>Crystal Career — AI Resume & Cover Letter</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -746,7 +746,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Clear<span>CV</span></h1>
+            <h1>Crystal <span>Career</span></h1>
             <p>Upload your CV and a job description — get instant ATS analysis, actionable feedback,<br>and a tailored cover letter built around what the role actually requires.</p>
         </div>
 
@@ -944,6 +944,43 @@
         </div>
 
         <div class="footer">
+            <svg viewBox="0 0 220 270" xmlns="http://www.w3.org/2000/svg" style="width:38px;height:46px;display:block;margin:0 auto 14px;filter:drop-shadow(0 0 10px rgba(124,58,237,0.5))">
+                <defs>
+                    <linearGradient id="ftb" x1="20%" y1="0%" x2="80%" y2="100%"><stop offset="0%" stop-color="#120020"/><stop offset="18%" stop-color="#2d0054"/><stop offset="40%" stop-color="#5b21b6"/><stop offset="65%" stop-color="#a78bfa"/><stop offset="85%" stop-color="#ddd6fe"/><stop offset="100%" stop-color="#f5f3ff"/></linearGradient>
+                    <linearGradient id="ftd" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0d001a"/><stop offset="50%" stop-color="#2d0054"/><stop offset="100%" stop-color="#4c1d95"/></linearGradient>
+                    <linearGradient id="ftr" x1="10%" y1="0%" x2="90%" y2="100%"><stop offset="0%" stop-color="#f0eaff"/><stop offset="20%" stop-color="#ffffff"/><stop offset="50%" stop-color="#ede9fe"/><stop offset="100%" stop-color="#a78bfa"/></linearGradient>
+                    <linearGradient id="ftir" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="100%" stop-color="#e9d5ff" stop-opacity="0.3"/></linearGradient>
+                    <radialGradient id="ftg" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#7c3aed" stop-opacity="0.4"/><stop offset="100%" stop-color="#0a0a0b" stop-opacity="0"/></radialGradient>
+                    <filter id="ftf"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#6d28d9" flood-opacity="0.5"/></filter>
+                    <filter id="ftsp" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    <style>
+                        @keyframes ftGlow { 0%,100%{opacity:.7} 50%{opacity:1} }
+                        @keyframes ftSparkle { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+                        .ft-glow { animation: ftGlow 4s ease-in-out infinite; }
+                        .ft-sparkle { animation: ftSparkle 2.2s ease-in-out infinite; }
+                    </style>
+                </defs>
+                <ellipse class="ft-glow" cx="110" cy="132" rx="80" ry="100" fill="url(#ftg)"/>
+                <g filter="url(#ftf)">
+                    <polygon points="110,10 46,70 42,148 100,148 110,82" fill="url(#ftd)" opacity="0.95"/>
+                    <polygon points="110,10 174,70 180,148 120,148 110,82" fill="url(#ftb)" opacity="0.9"/>
+                    <polygon points="110,82 174,70 172,152 130,228 110,200 90,228 48,152 46,70 110,82" fill="url(#ftr)" opacity="0.88"/>
+                    <polygon points="46,70 42,152 62,232 110,200 100,148" fill="#9f7aea" opacity="0.82"/>
+                    <polygon points="174,70 180,152 158,232 110,200 120,148" fill="#c4b5fd" opacity="0.88"/>
+                    <polygon points="62,232 158,232 110,244" fill="#f8f5ff" opacity="0.9"/>
+                    <polygon points="110,25 170,75 110,115" fill="url(#ftir)" opacity="0.75"/>
+                    <path d="M112,6 C115,6 118,8 120,12 L174,70 L182,152 L164,232 C162,238 158,242 152,242 L68,242 C62,242 58,238 56,232 L38,152 L46,70 L100,12 C102,8 109,6 112,6 Z" fill="none" stroke="#c4b5fd" stroke-width="0.8" opacity="0.45"/>
+                    <line x1="110" y1="10" x2="46" y2="70" stroke="#ddd6fe" stroke-width="0.6" opacity="0.4"/>
+                    <line x1="110" y1="10" x2="174" y2="70" stroke="#ddd6fe" stroke-width="0.6" opacity="0.4"/>
+                </g>
+                <g class="ft-sparkle" filter="url(#ftsp)" transform="translate(110,10)">
+                    <line x1="-7" y1="0" x2="7" y2="0" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="0" y1="-7" x2="0" y2="7" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="-4" y1="-4" x2="4" y2="4" stroke="#e9d5ff" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                    <line x1="4" y1="-4" x2="-4" y2="4" stroke="#e9d5ff" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+                    <circle cx="0" cy="0" r="1.8" fill="#ffffff"/>
+                </g>
+            </svg>
             Built with Groq + FastAPI · Claude AI
         </div>
     </div>
@@ -1573,7 +1610,10 @@
                 const url  = URL.createObjectURL(blob);
                 const a    = document.createElement('a');
                 a.href     = url;
-                a.download = `Cover_Letter_${(coverLetterData.candidate_name || 'CoverLetter').replace(/\s+/g,'_')}.${format}`;
+                const company = (coverLetterData.company_name || '').trim().replace(/\s+/g,'_');
+                a.download = company
+                    ? `${company}_Cover_Letter.${format}`
+                    : `Cover_Letter.${format}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
