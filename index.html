@@ -786,7 +786,7 @@
                 <!-- URL mode -->
                 <div id="jd-url-panel" style="display:none">
                     <div class="url-row">
-                        <input class="url-input" id="jd-url-input" type="url" placeholder="https://linkedin.com/jobs/view/...">
+                        <input class="url-input" id="jd-url-input" type="url" placeholder="Paste job posting URL here...">
                         <button class="fetch-btn" id="fetch-btn" onclick="fetchJobUrl()">Fetch</button>
                     </div>
                     <div class="url-status" id="url-status"></div>
@@ -898,16 +898,15 @@
                     "></div>
 
                     <!-- Download row -->
-                    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
-                        <button class="dl-btn" onclick="downloadCoverLetter('pdf')">
-                            ↓ Download PDF
-                        </button>
-                        <button class="dl-btn" onclick="downloadCoverLetter('docx')">
-                            ↓ Download Word
-                        </button>
-                        <button class="dl-btn-secondary" onclick="regenerateCoverLetter()">
-                            ↺ Regenerate
-                        </button>
+                    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; align-items:center;">
+                        <div class="ucv-wrapper">
+                            <button class="btn" id="cl-dl-btn" onclick="toggleCLDropdown()">Download Cover Letter ▾</button>
+                            <div class="ucv-dropdown" id="cl-dropdown">
+                                <button onclick="downloadCoverLetter('pdf')">↓ Download as PDF</button>
+                                <button onclick="downloadCoverLetter('docx')">↓ Download as Word</button>
+                            </div>
+                        </div>
+                        <button class="dl-btn-secondary" onclick="regenerateCoverLetter()">↺ Regenerate</button>
                     </div>
                 </div>
             </div>
@@ -947,6 +946,7 @@
         let uploadedCvText = ''; // text extracted from uploaded file
         let fetchedJdText = '';  // text fetched from URL
         let isAnalyzing = false;
+        let uploadedFileName = ''; // stores original filename without extension
 
         // --- Tab switching ---
         function switchCvTab(mode) {
@@ -985,6 +985,7 @@
         // --- File upload & parsing ---
         async function handleFileSelect(file) {
             if (!file) return;
+            uploadedFileName = file.name.replace(/\.[^/.]+$/, ''); // strip extension
             const allowed = ['.pdf', '.docx', '.txt'];
             const ext = '.' + file.name.split('.').pop().toLowerCase();
             if (!allowed.includes(ext)) {
@@ -1109,6 +1110,15 @@
             const streamingEl = document.getElementById('streaming');
             const resultsEl  = document.getElementById('results');
             const btn        = document.getElementById('analyze-btn');
+
+            // Toggle: if results are already visible, hide everything and return
+            if (resultsEl.classList.contains('visible')) {
+                resultsEl.classList.remove('visible');
+                document.getElementById('cover-letter-section').style.display = 'none';
+                document.getElementById('updated-cv-section').style.display   = 'none';
+                document.getElementById('cl-result').style.display = 'none';
+                return;
+            }
 
             errorEl.classList.remove('visible');
 
@@ -1390,7 +1400,7 @@
                 const url  = URL.createObjectURL(blob);
                 const a    = document.createElement('a');
                 a.href     = url;
-                a.download = `Updated_CV_${(updatedCvData.name || 'CV').replace(/\s+/g,'_')}.${format}`;
+                a.download = `${uploadedFileName || ('Updated_CV_' + (updatedCvData.name || 'CV').replace(/\s+/g,'_'))}.${format}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -1433,6 +1443,15 @@
 
         // Called from the top-row button — validates inputs then generates
         async function generateCoverLetterDirect() {
+            const clSection  = document.getElementById('cover-letter-section');
+            const clResultEl = document.getElementById('cl-result');
+
+            // Toggle: if cover letter result is visible, hide and return
+            if (clSection.style.display !== 'none' && clResultEl.style.display !== 'none') {
+                clSection.style.display = 'none';
+                return;
+            }
+
             const { resumeText, jdText } = getInputTexts();
             const errorEl = document.getElementById('error-msg');
             errorEl.classList.remove('visible');
@@ -1444,10 +1463,9 @@
             lastJdText     = jdText;
 
             // Show and scroll to cover letter section
-            const clSection = document.getElementById('cover-letter-section');
             clSection.style.display = 'block';
             document.getElementById('cl-generate-row').style.display = 'none';
-            document.getElementById('cl-result').style.display        = 'none';
+            clResultEl.style.display = 'none';
             clSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             await runCoverLetterStream();
@@ -1524,42 +1542,46 @@
 
         function regenerateCoverLetter() {
             document.getElementById('cl-result').style.display    = 'none';
-            document.getElementById('cl-generate-row').style.display = 'block';
+            document.getElementById('cl-generate-row').style.display = 'none';
+            runCoverLetterStream();
+        }
+
+        function toggleCLDropdown() {
+            document.getElementById('cl-dropdown').classList.toggle('open');
         }
 
         async function downloadCoverLetter(format) {
-            if (!coverLetterData) return;
-            const btn = event.currentTarget;
-            btn.disabled = true;
-            btn.textContent = 'Generating…';
-
+            document.getElementById('cl-dropdown').classList.remove('open');
+            if (!coverLetterData) { showError('No cover letter to download yet.'); return; }
             try {
                 const res = await fetch(`/api/download/${format}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cover_letter: coverLetterData })
                 });
-
                 if (!res.ok) throw new Error('Download failed');
-
-                const blob     = await res.blob();
-                const url      = URL.createObjectURL(blob);
-                const a        = document.createElement('a');
-                const company  = (coverLetterData.company_name || 'Application').replace(/\s+/g, '_');
-                a.href         = url;
-                a.download     = `Cover_Letter_${company}.${format}`;
+                const blob = await res.blob();
+                const url  = URL.createObjectURL(blob);
+                const a    = document.createElement('a');
+                a.href     = url;
+                a.download = `Cover_Letter_${(coverLetterData.candidate_name || 'CoverLetter').replace(/\s+/g,'_')}.${format}`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-
             } catch (err) {
-                showError('Download failed. Please try again.');
-            } finally {
-                btn.disabled    = false;
-                btn.textContent = format === 'pdf' ? '↓ Download PDF' : '↓ Download Word';
+                console.error(err);
+                showError('Failed to download cover letter. Please try again.');
             }
         }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#cl-dropdown') && !e.target.closest('#cl-dl-btn')) {
+                document.getElementById('cl-dropdown')?.classList.remove('open');
+            }
+        });
+
     </script>
 </body>
 </html>
