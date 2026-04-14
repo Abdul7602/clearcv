@@ -685,6 +685,15 @@
 
         .add-link-btn:hover { opacity: 0.8; }
 
+        .links-section {
+            max-width: 50%;
+            margin: 0 auto 16px;
+        }
+
+        @media (max-width: 640px) {
+            .links-section { max-width: 100%; }
+        }
+
         /* Updated CV dropdown */
         .ucv-wrapper {
             position: relative;
@@ -796,7 +805,7 @@
         </div>
 
         <!-- Optional Links -->
-        <div style="margin-bottom: 16px;">
+        <div class="links-section">
             <button class="links-toggle" id="links-toggle-btn" onclick="toggleLinksPanel()">
                 <span id="links-toggle-icon">+</span> Optional Links
                 <span id="links-count-badge" style="display:none; background:var(--accent-dim); color:var(--accent); border-radius:20px; padding:1px 8px; font-size:0.75rem; margin-left:6px;"></span>
