@@ -46,7 +46,7 @@
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/clearcv.git
+git clone https://github.com/Abdul7602/clearcv.git
 cd clearcv
 
 # 2. Install dependencies
