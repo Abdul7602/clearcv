@@ -1,8 +1,15 @@
-# ClearCV — AI Resume Reviewer
+<div align="center">
 
-> Upload your CV and a job description. Get instant ATS analysis, actionable feedback, and a tailored cover letter built around what the role actually requires.
+<!-- Replace with your crystal logo image once hosted -->
+<img src="crystal_final.svg" alt="Crystal Career Logo" width="80"/>
+
+# Crystal Career
+
+### *Land your next role — AI resume analysis, ATS scoring, and tailored cover letters in seconds.*
 
 **Live demo:** [clearcv.onrender.com](https://clearcv.onrender.com)
+
+</div>
 
 ---
 
@@ -47,7 +54,7 @@
 ```bash
 # 1. Clone the repo
 git clone https://github.com/Abdul7602/clearcv.git
-cd clearcv
+cd Crystal\ Career
 
 # 2. Install dependencies
 pip install -r requirements.txt
@@ -94,7 +101,7 @@ Then open [http://localhost:8000](http://localhost:8000).
 ## Project Structure
 
 ```
-clearcv/
+crystal-career/
 ├── server.py        # FastAPI backend — all API endpoints
 ├── index.html       # Frontend — single file, vanilla JS
 ├── requirements.txt # Python dependencies
@@ -122,8 +129,4 @@ clearcv/
 
 - [Groq](https://groq.com) — fast LLM inference
 - [FastAPI](https://fastapi.tiangolo.com) — Python web framework
-- [Claude AI](https://claude.ai) — AI assistant used to design and build this project
-
----
-
-*Portfolio project — not affiliated with any job board or recruitment platform.*
+- [Claude AI](https://claude.ai) — AI assistant used t

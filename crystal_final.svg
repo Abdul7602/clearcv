@@ -1,0 +1,315 @@
+<svg viewBox="0 0 220 270" xmlns="http://www.w3.org/2000/svg">
+<defs>
+
+  <!-- ── GRADIENTS ─────────────────────────────────────────── -->
+
+  <!-- Dark deep violet at top, light lavender/white at base -->
+  <linearGradient id="bodyBase" x1="20%" y1="0%" x2="80%" y2="100%">
+    <stop offset="0%"   stop-color="#120020"/>
+    <stop offset="18%"  stop-color="#2d0054"/>
+    <stop offset="40%"  stop-color="#5b21b6"/>
+    <stop offset="65%"  stop-color="#a78bfa"/>
+    <stop offset="85%"  stop-color="#ddd6fe"/>
+    <stop offset="100%" stop-color="#f5f3ff"/>
+  </linearGradient>
+
+  <!-- The big bright face (like the white reflection in photo) -->
+  <linearGradient id="brightFace" x1="10%" y1="0%" x2="90%" y2="100%">
+    <stop offset="0%"   stop-color="#f0eaff"/>
+    <stop offset="20%"  stop-color="#ffffff"/>
+    <stop offset="50%"  stop-color="#ede9fe"/>
+    <stop offset="80%"  stop-color="#c4b5fd"/>
+    <stop offset="100%" stop-color="#a78bfa"/>
+  </linearGradient>
+
+  <!-- Upper-left face — darkest, the shadow side -->
+  <linearGradient id="darkFace" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%"   stop-color="#0d001a"/>
+    <stop offset="50%"  stop-color="#2d0054"/>
+    <stop offset="100%" stop-color="#4c1d95"/>
+  </linearGradient>
+
+  <!-- Left mid face — medium purple -->
+  <linearGradient id="midLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%"   stop-color="#3b0764"/>
+    <stop offset="50%"  stop-color="#7c3aed"/>
+    <stop offset="100%" stop-color="#a78bfa"/>
+  </linearGradient>
+
+  <!-- Lower right face — pale lavender -->
+  <linearGradient id="lowerRight" x1="0%" y1="0%" x2="50%" y2="100%">
+    <stop offset="0%"   stop-color="#c4b5fd"/>
+    <stop offset="100%" stop-color="#f0eaff"/>
+  </linearGradient>
+
+  <!-- Lower left face -->
+  <linearGradient id="lowerLeft" x1="100%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"   stop-color="#9f7aea"/>
+    <stop offset="100%" stop-color="#ddd6fe"/>
+  </linearGradient>
+
+  <!-- Base bottom -->
+  <linearGradient id="baseBot" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"   stop-color="#ddd6fe"/>
+    <stop offset="100%" stop-color="#f8f5ff"/>
+  </linearGradient>
+
+  <!-- Inner bright triangle (the big white internal reflection) -->
+  <linearGradient id="innerReflect" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.95"/>
+    <stop offset="40%"  stop-color="#ffffff" stop-opacity="0.85"/>
+    <stop offset="100%" stop-color="#e9d5ff" stop-opacity="0.3"/>
+  </linearGradient>
+
+  <!-- Secondary lower inner reflection -->
+  <linearGradient id="innerReflect2" x1="0%" y1="0%" x2="80%" y2="100%">
+    <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.7"/>
+    <stop offset="100%" stop-color="#ddd6fe" stop-opacity="0.2"/>
+  </linearGradient>
+
+  <!-- Ambient glow behind crystal -->
+  <radialGradient id="ambientGlow" cx="50%" cy="45%" r="55%">
+    <stop offset="0%"   stop-color="#7c3aed" stop-opacity="0.45"/>
+    <stop offset="60%"  stop-color="#4c1d95" stop-opacity="0.15"/>
+    <stop offset="100%" stop-color="#0a0a0b" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- Shimmer sweep (animates left to right) -->
+  <linearGradient id="shimmerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="45%"  stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.35"/>
+    <stop offset="55%"  stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+
+  <!-- ── FILTERS ─────────────────────────────────────────────── -->
+
+  <!-- Main crystal drop shadow + outer glow -->
+  <filter id="crystalShadow" x="-25%" y="-15%" width="150%" height="135%">
+    <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#6d28d9" flood-opacity="0.55"/>
+    <feDropShadow dx="0" dy="2"  stdDeviation="4"  flood-color="#a78bfa" flood-opacity="0.25"/>
+  </filter>
+
+  <!-- Sparkle glow -->
+  <filter id="sparkleGlow" x="-150%" y="-150%" width="400%" height="400%">
+    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+
+  <!-- Soft inner shimmer blur -->
+  <filter id="shimmerBlur" x="-5%" y="-5%" width="110%" height="110%">
+    <feGaussianBlur stdDeviation="3"/>
+  </filter>
+
+  <!-- ── CLIP ───────────────────────────────────────────────── -->
+  <!-- Natural amethyst crystal point outline -->
+  <clipPath id="crystalClip">
+    <path d="M112,6
+             C115,6 118,8 120,12
+             L174,70 L182,152 L164,232
+             C162,238 158,242 152,242
+             L68,242
+             C62,242 58,238 56,232
+             L38,152 L46,70
+             L100,12
+             C102,8 109,6 112,6 Z"/>
+  </clipPath>
+
+  <!-- ── CSS ANIMATIONS ─────────────────────────────────────── -->
+  <style>
+    @keyframes glowPulse {
+      0%,100% { opacity: 0.7; rx: 88px; ry: 108px; }
+      50%      { opacity: 1;   rx: 96px; ry: 118px; }
+    }
+    @keyframes shimmerSweep {
+      0%   { transform: translateX(-240px); }
+      100% { transform: translateX(240px);  }
+    }
+    @keyframes sparklePulse {
+      0%,100% { opacity: 1;   transform: scale(1);   }
+      50%      { opacity: 0.3; transform: scale(0.6); }
+    }
+    @keyframes sparkleRotate {
+      0%   { transform: rotate(0deg);   }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes innerGlowPulse {
+      0%,100% { opacity: 0.55; }
+      50%      { opacity: 0.85; }
+    }
+    @keyframes floatParticle {
+      0%,100% { opacity: 0.6; transform: translateY(0px);  }
+      50%      { opacity: 0.2; transform: translateY(-4px); }
+    }
+    @keyframes outerRingPulse {
+      0%,100% { stroke-width: 1.5px; opacity: 0.25; }
+      50%      { stroke-width: 3px;   opacity: 0.5;  }
+    }
+
+    .glow-ellipse { animation: glowPulse 4s ease-in-out infinite; }
+    .shimmer-rect  { animation: shimmerSweep 3.5s ease-in-out infinite; }
+    .sparkle-main  { animation: sparklePulse 2.2s ease-in-out infinite; }
+    .sparkle-rot   { animation: sparkleRotate 8s linear infinite; }
+    .inner-shimmer { animation: innerGlowPulse 3s ease-in-out infinite; }
+    .particle-1    { animation: floatParticle 3.2s ease-in-out infinite; }
+    .particle-2    { animation: floatParticle 2.8s ease-in-out infinite 0.7s; }
+    .particle-3    { animation: floatParticle 3.8s ease-in-out infinite 1.4s; }
+    .outer-ring    { animation: outerRingPulse 4s ease-in-out infinite; }
+  </style>
+
+</defs>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- AMBIENT GLOW BEHIND CRYSTAL -->
+<ellipse class="glow-ellipse"
+  cx="110" cy="132" rx="88" ry="108"
+  fill="url(#ambientGlow)"/>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CRYSTAL BODY -->
+<g filter="url(#crystalShadow)">
+
+  <!-- Shadow/depth base -->
+  <path d="M112,6
+           C115,6 118,8 120,12
+           L174,70 L182,152 L164,232
+           C162,238 158,242 152,242
+           L68,242
+           C62,242 58,238 56,232
+           L38,152 L46,70
+           L100,12
+           C102,8 109,6 112,6 Z"
+        fill="#100018" opacity="0.5"/>
+
+  <!-- ── FACE 1: upper-left — darkest (shadow side, like in photo) -->
+  <polygon points="110,10  46,70  42,148  100,148  110,82"
+           fill="url(#darkFace)" opacity="0.95"/>
+
+  <!-- ── FACE 2: upper-right — medium dark purple -->
+  <polygon points="110,10  174,70  180,148  120,148  110,82"
+           fill="url(#bodyBase)" opacity="0.9"/>
+
+  <!-- ── FACE 3: center dominant BRIGHT face (the dramatic white reflection) -->
+  <polygon points="110,82  174,70  172,152  130,228  110,200  90,228  48,152  46,70  110,82"
+           fill="url(#brightFace)" opacity="0.88"/>
+
+  <!-- ── FACE 4: lower-left -->
+  <polygon points="46,70  42,152  62,232  110,200  100,148"
+           fill="url(#lowerLeft)" opacity="0.82"/>
+
+  <!-- ── FACE 5: lower-right -->
+  <polygon points="174,70  180,152  158,232  110,200  120,148"
+           fill="url(#lowerRight)" opacity="0.88"/>
+
+  <!-- ── FACE 6: base bottom -->
+  <polygon points="62,232  158,232  110,244"
+           fill="url(#baseBot)" opacity="0.9"/>
+
+  <!-- ── INNER BRIGHT TRIANGLE (the big white reflection from photo) -->
+  <!-- This is the large bright catch-light visible on the center face -->
+  <polygon points="110,25  170,75  110,115"
+           fill="url(#innerReflect)" opacity="0.75"/>
+
+  <!-- Secondary inner reflection (lower diamond) -->
+  <polygon points="95,148  140,128  125,210  90,210"
+           fill="url(#innerReflect2)" opacity="0.55"/>
+
+  <!-- ── FACET EDGE LINES (crisp crystal structure) -->
+  <!-- Outer edge -->
+  <path d="M112,6 C115,6 118,8 120,12 L174,70 L182,152 L164,232 C162,238 158,242 152,242
+           L68,242 C62,242 58,238 56,232 L38,152 L46,70 L100,12 C102,8 109,6 112,6 Z"
+        fill="none" stroke="#c4b5fd" stroke-width="0.8" opacity="0.45"/>
+
+  <!-- Internal facet dividers -->
+  <line x1="110" y1="10"  x2="46"  y2="70"  stroke="#ddd6fe" stroke-width="0.6" opacity="0.4"/>
+  <line x1="110" y1="10"  x2="174" y2="70"  stroke="#ddd6fe" stroke-width="0.6" opacity="0.4"/>
+  <line x1="46"  y1="70"  x2="110" y2="82"  stroke="#c4b5fd" stroke-width="0.5" opacity="0.35"/>
+  <line x1="174" y1="70"  x2="110" y2="82"  stroke="#c4b5fd" stroke-width="0.5" opacity="0.35"/>
+  <line x1="42"  y1="152" x2="110" y2="148" stroke="#c4b5fd" stroke-width="0.5" opacity="0.3"/>
+  <line x1="180" y1="152" x2="110" y2="148" stroke="#c4b5fd" stroke-width="0.5" opacity="0.3"/>
+  <line x1="110" y1="200" x2="62"  y2="232" stroke="#c4b5fd" stroke-width="0.5" opacity="0.35"/>
+  <line x1="110" y1="200" x2="158" y2="232" stroke="#c4b5fd" stroke-width="0.5" opacity="0.35"/>
+  <!-- Center spine -->
+  <line x1="110" y1="10"  x2="110" y2="244" stroke="#ffffff"  stroke-width="0.6" opacity="0.12"/>
+
+</g>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INNER EFFECTS (clipped to crystal shape) -->
+<g clip-path="url(#crystalClip)">
+
+  <!-- Upper-left catch light / inner shimmer (realistic refraction) -->
+  <ellipse class="inner-shimmer"
+    cx="85" cy="68" rx="30" ry="42"
+    fill="#ffffff" opacity="0.32"
+    transform="rotate(-20, 85, 68)"/>
+
+  <!-- Deep inner glow (the purple depth you see through the crystal) -->
+  <ellipse cx="110" cy="80" rx="50" ry="60"
+           fill="#2d0054" opacity="0.35"/>
+
+  <!-- Lower translucent bright zone -->
+  <ellipse cx="115" cy="180" rx="45" ry="35"
+           fill="#f0eaff" opacity="0.25"/>
+
+  <!-- Shimmer sweep -->
+  <rect class="shimmer-rect"
+    x="-220" y="0" width="220" height="270"
+    fill="url(#shimmerGrad)"/>
+
+</g>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PULSING OUTER RING -->
+<path class="outer-ring"
+  d="M112,6 C115,6 118,8 120,12 L174,70 L182,152 L164,232
+     C162,238 158,242 152,242 L68,242 C62,242 58,238 56,232
+     L38,152 L46,70 L100,12 C102,8 109,6 112,6 Z"
+  fill="none" stroke="#a78bfa" stroke-width="1.5"/>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SPARKLE AT TIP -->
+<g class="sparkle-main" filter="url(#sparkleGlow)" transform="translate(110, 10)">
+  <!-- 4-point star -->
+  <line x1="-10" y1="0"  x2="10" y2="0"  stroke="#ffffff" stroke-width="2"   stroke-linecap="round"/>
+  <line x1="0"  y1="-10" x2="0"  y2="10" stroke="#ffffff" stroke-width="2"   stroke-linecap="round"/>
+  <line x1="-6" y1="-6"  x2="6"  y2="6"  stroke="#e9d5ff" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="6"  y1="-6"  x2="-6" y2="6"  stroke="#e9d5ff" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+  <!-- Center dot -->
+  <circle cx="0" cy="0" r="2" fill="#ffffff" opacity="0.9"/>
+</g>
+
+<!-- Bright sparkle on the main reflection face -->
+<g filter="url(#sparkleGlow)" transform="translate(155, 82)">
+  <line x1="-5" y1="0" x2="5" y2="0" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.9;0.1;0.9" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="-5" x2="0" y2="5" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.9;0.1;0.9" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+  </line>
+  <circle cx="0" cy="0" r="1.5" fill="#ffffff">
+    <animate attributeName="opacity" values="0.9;0.2;0.9" dur="1.8s" begin="0.6s" repeatCount="indefinite"/>
+  </circle>
+</g>
+
+<!-- Small sparkle lower face -->
+<g filter="url(#sparkleGlow)" transform="translate(78, 192)">
+  <line x1="-3.5" y1="0" x2="3.5" y2="0" stroke="#e9d5ff" stroke-width="1.2" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.5s" begin="1.2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="-3.5" x2="0" y2="3.5" stroke="#e9d5ff" stroke-width="1.2" stroke-linecap="round">
+    <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.5s" begin="1.2s" repeatCount="indefinite"/>
+  </line>
+</g>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- FLOATING DUST PARTICLES -->
+<circle class="particle-1" cx="58"  cy="52"  r="1.2" fill="#e9d5ff" opacity="0.5"/>
+<circle class="particle-2" cx="170" cy="44"  r="1"   fill="#c4b5fd" opacity="0.45"/>
+<circle class="particle-3" cx="188" cy="130" r="1.4" fill="#ddd6fe" opacity="0.4"/>
+<circle class="particle-1" cx="32"  cy="148" r="0.9" fill="#e9d5ff" opacity="0.35"/>
+<circle class="particle-2" cx="130" cy="250" r="1"   fill="#a78bfa" opacity="0.4"/>
+<circle class="particle-3" cx="78"  cy="258" r="0.8" fill="#c4b5fd" opacity="0.3"/>
+
+</svg>
