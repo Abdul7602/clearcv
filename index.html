@@ -591,6 +591,139 @@
             color: var(--accent);
         }
 
+        /* Optional links section */
+        .links-toggle {
+            background: none;
+            border: 1px dashed var(--border);
+            color: var(--text-dim);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            width: 100%;
+            text-align: left;
+            transition: border-color 0.2s, color 0.2s;
+            margin-bottom: 0;
+        }
+
+        .links-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .links-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .links-panel.open { display: block; }
+
+        .links-hint {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+
+        .link-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .link-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .link-input {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-family: inherit;
+            flex: 1;
+            transition: border-color 0.2s;
+        }
+
+        .link-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .link-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+
+        .link-remove {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            transition: color 0.15s;
+        }
+
+        .link-remove:hover { color: var(--red); }
+
+        .add-link-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.82rem;
+            cursor: pointer;
+            padding: 4px 0;
+            margin-top: 4px;
+        }
+
+        .add-link-btn:hover { opacity: 0.8; }
+
+        /* Updated CV dropdown */
+        .ucv-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .ucv-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 20;
+            min-width: 100%;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .ucv-dropdown.open { display: block; }
+
+        .ucv-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.88rem;
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+
+        .ucv-dropdown button:hover { background: var(--accent-dim); color: var(--accent); }
+        .ucv-dropdown button + button { border-top: 1px solid var(--border); }
+
         .footer {
             text-align: center;
             padding: 40px 0 20px;
@@ -659,6 +792,28 @@
                     <div class="url-status" id="url-status"></div>
                     <div class="url-preview" id="url-preview"></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Optional Links -->
+        <div style="margin-bottom: 16px;">
+            <button class="links-toggle" id="links-toggle-btn" onclick="toggleLinksPanel()">
+                <span id="links-toggle-icon">+</span> Optional Links
+                <span id="links-count-badge" style="display:none; background:var(--accent-dim); color:var(--accent); border-radius:20px; padding:1px 8px; font-size:0.75rem; margin-left:6px;"></span>
+                <span style="float:right; font-size:0.75rem; opacity:0.6;">GitHub · Portfolio · More — for tailored output</span>
+            </button>
+            <div class="links-panel" id="links-panel">
+                <p class="links-hint">Add links to generate a more tailored CV and cover letter. Only CV + job description are required.</p>
+                <div class="link-input-row">
+                    <span class="link-icon">⌥</span>
+                    <input class="link-input" id="link-github" type="url" placeholder="GitHub profile (github.com/username)">
+                </div>
+                <div class="link-input-row">
+                    <span class="link-icon">🌐</span>
+                    <input class="link-input" id="link-portfolio" type="url" placeholder="Portfolio URL">
+                </div>
+                <div id="extra-links-container"></div>
+                <button class="add-link-btn" id="add-link-btn" onclick="addExtraLink()">+ Add another link</button>
             </div>
         </div>
 
@@ -753,6 +908,28 @@
                         <button class="dl-btn-secondary" onclick="regenerateCoverLetter()">
                             ↺ Regenerate
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Updated CV Section -->
+        <div id="updated-cv-section" style="display:none; margin-top: 12px;">
+            <div class="section">
+                <div class="section-title">✦ Updated CV</div>
+                <p style="color:var(--text-dim); font-size:0.88rem; margin-bottom:20px;">
+                    A fully rewritten version of your CV — ATS issues fixed, missing keywords injected, bullets optimised for this role.<span id="ucv-links-note" style="display:none"> GitHub and portfolio factored in.</span>
+                </p>
+                <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+                    <div class="ucv-wrapper">
+                        <button class="btn" id="ucv-btn" onclick="toggleUCVDropdown()">Download Updated CV ▾</button>
+                        <div class="ucv-dropdown" id="ucv-dropdown">
+                            <button onclick="generateUpdatedCV('pdf')">↓ Download as PDF</button>
+                            <button onclick="generateUpdatedCV('docx')">↓ Download as Word</button>
+                        </div>
+                    </div>
+                    <div id="ucv-loading" style="display:none; color:var(--text-dim); font-size:0.88rem;">
+                        <span class="streaming-dots">Rewriting your CV</span>
                     </div>
                 </div>
             </div>
@@ -975,9 +1152,11 @@
                     }
                 }
 
-                renderResults(JSON.parse(fullText));
+                const analysisResult = JSON.parse(fullText);
+                lastAnalysisData = analysisResult;
+                renderResults(analysisResult);
 
-                // Store for cover letter use
+                // Store for cover letter + updated CV use
                 lastResumeText = resumeText;
                 lastJdText     = jdText;
 
@@ -987,6 +1166,11 @@
                 document.getElementById('cl-loading').style.display      = 'none';
                 document.getElementById('cl-result').style.display        = 'none';
                 clSection.style.display = 'block';
+
+                // Show Updated CV section only if CV was uploaded
+                if (cvMode === 'upload' && uploadedCvText) {
+                    document.getElementById('updated-cv-section').style.display = 'block';
+                }
 
             } catch (err) {
                 console.error(err);
@@ -1071,6 +1255,157 @@
             if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') analyze();
         });
 
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.ucv-wrapper')) {
+                document.getElementById('ucv-dropdown').classList.remove('open');
+            }
+        });
+
+        // ── Optional Links ────────────────────────────────────────────────────
+        let extraLinkCount = 0;
+
+        function toggleLinksPanel() {
+            const panel  = document.getElementById('links-panel');
+            const icon   = document.getElementById('links-toggle-icon');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open');
+            icon.textContent = isOpen ? '+' : '−';
+        }
+
+        function addExtraLink() {
+            if (extraLinkCount >= 2) return;
+            extraLinkCount++;
+            const container = document.getElementById('extra-links-container');
+            const id  = `link-extra-${extraLinkCount}`;
+            const row = document.createElement('div');
+            row.className = 'link-input-row';
+            row.id = `extra-row-${extraLinkCount}`;
+            row.innerHTML = `
+                <span class="link-icon">🔗</span>
+                <input class="link-input" id="${id}" type="url" placeholder="Additional link (project, publication, etc.)">
+                <button class="link-remove" onclick="removeExtraLink(${extraLinkCount})">✕</button>
+            `;
+            container.appendChild(row);
+            if (extraLinkCount >= 2) document.getElementById('add-link-btn').style.display = 'none';
+            updateLinksBadge();
+        }
+
+        function removeExtraLink(n) {
+            const row = document.getElementById(`extra-row-${n}`);
+            if (row) row.remove();
+            extraLinkCount = Math.max(0, extraLinkCount - 1);
+            document.getElementById('add-link-btn').style.display = 'block';
+            updateLinksBadge();
+        }
+
+        function getLinks() {
+            const links = [];
+            const github    = document.getElementById('link-github')?.value.trim();
+            const portfolio = document.getElementById('link-portfolio')?.value.trim();
+            if (github)    links.push({ url: github,    label: 'GitHub' });
+            if (portfolio) links.push({ url: portfolio, label: 'Portfolio' });
+            for (let i = 1; i <= 2; i++) {
+                const el = document.getElementById(`link-extra-${i}`);
+                if (el?.value.trim()) links.push({ url: el.value.trim(), label: 'Additional Link' });
+            }
+            return links;
+        }
+
+        function updateLinksBadge() {
+            const count  = getLinks().length;
+            const badge  = document.getElementById('links-count-badge');
+            if (count > 0) {
+                badge.textContent = `${count} added`;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Update badge whenever link inputs change
+        document.addEventListener('input', (e) => {
+            if (e.target.classList.contains('link-input')) updateLinksBadge();
+        });
+
+        // ── Updated CV ────────────────────────────────────────────────────────
+        let lastAnalysisData = null;
+        let updatedCvData    = null;
+
+        function toggleUCVDropdown() {
+            document.getElementById('ucv-dropdown').classList.toggle('open');
+        }
+
+        async function generateUpdatedCV(format) {
+            document.getElementById('ucv-dropdown').classList.remove('open');
+            const btn       = document.getElementById('ucv-btn');
+            const loadingEl = document.getElementById('ucv-loading');
+
+            btn.disabled       = true;
+            btn.textContent    = 'Rewriting CV...';
+            loadingEl.style.display = 'block';
+            updatedCvData = null;
+
+            const links = getLinks();
+            document.getElementById('ucv-links-note').style.display = links.length ? 'inline' : 'none';
+
+            let fullText = '';
+            try {
+                const res = await fetch('/api/updated-cv', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        resume: lastResumeText,
+                        job_description: lastJdText,
+                        analysis: lastAnalysisData,
+                        links: links,
+                    })
+                });
+
+                const reader  = res.body.getReader();
+                const decoder = new TextDecoder();
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    for (const line of decoder.decode(value).split('\n')) {
+                        if (line.startsWith('data: ')) {
+                            const d = line.slice(6);
+                            if (d === '[DONE]') break;
+                            try { const p = JSON.parse(d); if (p.text) fullText += p.text; } catch {}
+                        }
+                    }
+                }
+
+                updatedCvData = JSON.parse(fullText);
+
+                // Trigger download
+                const dlRes = await fetch(`/api/download/updated-cv-${format}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cv_data: updatedCvData })
+                });
+                if (!dlRes.ok) throw new Error('Download failed');
+
+                const blob = await dlRes.blob();
+                const url  = URL.createObjectURL(blob);
+                const a    = document.createElement('a');
+                a.href     = url;
+                a.download = `Updated_CV_${(updatedCvData.name || 'CV').replace(/\s+/g,'_')}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                console.error(err);
+                showError('Failed to generate updated CV. Please try again.');
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = 'Download Updated CV ▾';
+                loadingEl.style.display = 'none';
+            }
+        }
+
         // ── Cover Letter ──────────────────────────────────────────────────────
         let coverLetterData = null;
         let lastResumeText  = '';
@@ -1139,7 +1474,7 @@
                 const response = await fetch('/api/cover-letter', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ resume: lastResumeText, job_description: lastJdText })
+                    body: JSON.stringify({ resume: lastResumeText, job_description: lastJdText, links: getLinks() })
                 });
 
                 const reader  = response.body.getReader();
